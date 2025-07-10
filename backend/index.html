@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QnA Chatbot</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        input { 
+            width: 100%; 
+            padding: 10px; 
+            margin-bottom: 10px; 
+            font-size: 16px; 
+        }
+        button { 
+            padding: 10px 20px; 
+            background-color: #007bff; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+        }
+        button:hover { 
+            background-color: #0056b3; 
+        }
+        #answer { 
+            margin-top: 20px; 
+            line-height: 1.6; 
+        }
+        #answer h2 {
+            font-weight: bold;
+            color: #333;
+        }
+        #answer ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        #answer li {
+            margin-bottom: 5px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <h1>QnA Chatbot</h1>
+    <input type="text" id="query" placeholder="Ask a question (e.g., How to create a Basic Sourcing and add suppliers?)">
+    <button onclick="ask()">Submit</button>
+    <div id="answer"></div>
+
+    <script>
+        async function ask() {
+            const message = document.getElementById("query").value;
+            const answerDiv = document.getElementById("answer");
+            answerDiv.innerHTML = "Loading...";
+
+            try {
+                const response = await fetch("http://localhost:8000/tenant/prod/internal/custom-chatbot/chat", {
+                    method: "POST",
+                    // {message: answer},
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ message })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                answerDiv.innerHTML = "";
+
+                if (data.answers) {
+                    answerDiv.innerHTML = marked.parse(data.answers);
+                } else {
+                    answerDiv.innerHTML = "<p>No response received from the server.</p>";
+                }
+            } catch (error) {
+                console.error("Error fetching or rendering response:", error);
+                answerDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

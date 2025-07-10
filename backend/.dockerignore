@@ -1,0 +1,75 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Distribution / packaging
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Testing
+.coverage
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+
+# Virtual environments
+venv/
+ENV/
+env/
+.env.local
+.env.development
+.env.test
+.env.production
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Project specific
+*.log
+logs/
+tmp/
+
+# Docker files
+Dockerfile
+docker-compose*.yml
+
+# Documentation
+README.md
+*.md
+LICENSE
+docs/
+
+# Keep credentials directory but exclude any files that might be in the repo
+# (since we're creating it fresh in the Dockerfile)
+credentials/*
+!credentials/.gitkeep
